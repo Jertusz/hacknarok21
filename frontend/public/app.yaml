@@ -1,0 +1,58 @@
+runtime: python37
+handlers:
+  - url: /
+    static_files: index.html
+    upload: index.html
+    secure: always
+
+  - url: /index.html
+    static_files: index.html
+    upload: index.html
+    secure: always
+
+  - url: /manifest.json
+    static_files: manifest.json
+    upload: manifest.json
+    secure: always
+
+  - url: /service-worker.js
+    static_files: service-worker.js
+    upload: service-worker.js
+    secure: always
+
+  - url: /robots.txt
+    static_files: robots.txt
+    upload: robots.txt
+    secure: always
+
+  - url: /favicon.ico
+    static_files: favicon.ico
+    upload: favicon.ico
+    secure: always
+
+  - url: /(precache-manifest\.[a-zA-Z0-9]+\.js)
+    static_files: \1
+    upload: (precache-manifest\.[a-zA-Z0-9]+\.js)
+    secure: always
+
+  - url: /js/(.+\.js)
+    static_files: js/\1
+    upload: js/(.+\.js)
+    secure: always
+
+  - url: /css/(.+\.css)
+    static_files: css/\1
+    upload: css/(.+\.css)
+    secure: always
+
+  - url: /fonts/(.+\.(?:ttf|eot|woff2|woff))
+    static_files: fonts/\1
+    upload: fonts/(.+\.(?:ttf|eot|woff2|woff))
+    secure: always
+    expiration: "365d"
+
+  - url: /img/(.*)
+    static_files: img/\1
+    upload: img/(.*)
+    secure: always
+    expiration: "30d"
