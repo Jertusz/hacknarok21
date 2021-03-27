@@ -2,11 +2,13 @@
 name = "template"
 version = "0.0.0"
 description = ""
-authors = ["Paweł 'Andrzej' Pankiewicz <pawel.pankiewicz@xdsa.pl>"]
+authors = ["Paweł 'Andrzej' Pankiewicz <pawelp6020@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+Django = "^3.1.7"
+djangorestframework = "^3.12.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.1"

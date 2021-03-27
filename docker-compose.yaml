@@ -1,33 +1,18 @@
 version: "3.8"
 services:
-  # db:
-  #   image: "postgres:latest"
-  #   environment:
-  #     - "POSTGRES_HOST_AUTH_METHOD=trust"
-  #     - "POSTGRES_DB=Production"
-  #   ports:
-  #     - 5432:5432
-  #   volumes:
-  #     - psql:/var/lib/postgresql/data/
-  #   networks:
-  #     default:
-  #       aliases:
-  #         - db
-
-  swagger:
-    image: swaggerapi/swagger-ui:latest
-    env_file: ./swagger/compose-env-file.env
+  db:
+    image: "postgres:latest"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "POSTGRES_DB=Production"
     ports:
-      - 80:8080
-
-  json-server:
-    image: nginx:alpine
+      - 5432:5432
     volumes:
-      - ./swagger/yamls:/usr/share/nginx/html:ro
-      - ./swagger/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - 25500:80
-
+      - psql:/var/lib/postgresql/data/
+    networks:
+      default:
+        aliases:
+          - db
 
   backend:
     build:
@@ -82,3 +67,4 @@ services:
 volumes:
   frontend:
   node_modules:
+  psql:
