@@ -12,6 +12,8 @@ djangorestframework = "^3.12.4"
 uvicorn = "^0.13.4"
 python-decouple = "^3.4"
 psycopg2-binary = "^2.8.6"
+channels = "^3.0.3"
+channels-redis = "^3.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.1"
