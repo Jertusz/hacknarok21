@@ -75,8 +75,7 @@ class CustomQuestionLog(models.Model):
 class Log(models.Model):
     """Log in teacher's log view
     """
-    status = models.CharField(max_length=255, choices=STATUS)
-    action = models.CharField(max_length=255, choices=ACTIONS)
+    action = models.CharField(max_length=255)
     text = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -87,7 +86,7 @@ class Log(models.Model):
         verbose_name_plural = _("logs")
 
     def __str__(self):
-        return f"{self.action}-{self.status}"
+        return f"{self.action}-{self.text}"
 
     def get_absolute_url(self):
         return reverse("log_detail", kwargs={"pk": self.pk})

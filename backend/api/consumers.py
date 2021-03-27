@@ -50,7 +50,6 @@ def activity_answered(username, question, answer):
     activity_question.save()
 
 
-
 class SessionConsumer(AsyncWebsocketConsumer):
 
     async def close(self, code):
@@ -136,6 +135,9 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     }
                 )
 
+        elif event_type == 'generic':
+            pass
+
     async def show_activity_question(self, event):
         question = event["question"]
         question_id = event["question_id"]
@@ -157,7 +159,6 @@ class SessionConsumer(AsyncWebsocketConsumer):
             'question': question,
             'question_id': question_id
         }))
-
 
     async def hide(self):
         await self.send(text_data=json.dumps({
