@@ -9,68 +9,155 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='CustomQuestion',
+            name="CustomQuestion",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('session_id', models.CharField(max_length=255)),
-                ('content', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("session_id", models.CharField(max_length=255)),
+                ("content", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name='Log',
+            name="Log",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('GD', 'Good'), ('BD', 'Bad'), ('NN', 'None'), ('NT', 'Neutral')], max_length=255)),
-                ('action', models.CharField(choices=[('CC', 'Change Card'), ('SE', 'Session Enrollment Change'), ('CW', 'Clicked Different Window'), ('AQ', 'Answered Question')], max_length=255)),
-                ('text', models.CharField(max_length=255)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('student', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("GD", "Good"),
+                            ("BD", "Bad"),
+                            ("NN", "None"),
+                            ("NT", "Neutral"),
+                        ],
+                        max_length=255,
+                    ),
+                ),
+                (
+                    "action",
+                    models.CharField(
+                        choices=[
+                            ("CC", "Change Card"),
+                            ("SE", "Session Enrollment Change"),
+                            ("CW", "Clicked Different Window"),
+                            ("AQ", "Answered Question"),
+                        ],
+                        max_length=255,
+                    ),
+                ),
+                ("text", models.CharField(max_length=255)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("student", models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'log',
-                'verbose_name_plural': 'logs',
+                "verbose_name": "log",
+                "verbose_name_plural": "logs",
             },
         ),
         migrations.CreateModel(
-            name='Question',
+            name="Question",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.CharField(max_length=255)),
-                ('right_answer', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("content", models.CharField(max_length=255)),
+                ("right_answer", models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'question',
-                'verbose_name_plural': 'questions',
+                "verbose_name": "question",
+                "verbose_name_plural": "questions",
             },
         ),
         migrations.CreateModel(
-            name='CustomQuestionLog',
+            name="CustomQuestionLog",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('session_id', models.CharField(max_length=255)),
-                ('username', models.CharField(max_length=255)),
-                ('answer', models.CharField(max_length=255)),
-                ('custom_question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.customquestion')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("session_id", models.CharField(max_length=255)),
+                ("username", models.CharField(max_length=255)),
+                ("answer", models.CharField(max_length=255)),
+                (
+                    "custom_question",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="api.customquestion",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ActivityLog',
+            name="ActivityLog",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('session_id', models.CharField(max_length=255)),
-                ('answered_right', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), size=None)),
-                ('no_answer', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), size=None)),
-                ('answered_wrong', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), size=None)),
-                ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.question')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("session_id", models.CharField(max_length=255)),
+                (
+                    "answered_right",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255), size=None
+                    ),
+                ),
+                (
+                    "no_answer",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255), size=None
+                    ),
+                ),
+                (
+                    "answered_wrong",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255), size=None
+                    ),
+                ),
+                (
+                    "question",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.question"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'activitylog',
-                'verbose_name_plural': 'activitylogs',
+                "verbose_name": "activitylog",
+                "verbose_name_plural": "activitylogs",
             },
         ),
     ]

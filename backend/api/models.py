@@ -1,7 +1,7 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from django.contrib.postgres.fields import ArrayField
 
 
 class SessionLog(models.Model):
@@ -59,8 +59,8 @@ class CustomQuestionLog(models.Model):
 
 
 class Log(models.Model):
-    """Log in teacher's log view
-    """
+    """Log in teacher's log view"""
+
     session_id = models.ForeignKey(SessionLog, on_delete=models.CASCADE, null=True)
     action = models.CharField(max_length=255)
     text = models.CharField(max_length=255)

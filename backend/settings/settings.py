@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -83,9 +84,7 @@ ASGI_APPLICATION = "settings.asgi.application"
 database_name = config("database_name", default="Production")
 test_database_name = config("test_database_name", "Unittest")
 database_user = config("database_user", default="Backend")
-database_password = config(
-    "database_password", default="postgres"
-)
+database_password = config("database_password", default="postgres")
 database_host = config("database_host", default="localhost")
 database_port = config("database_port", default=5432, cast=int)
 DATABASES = {

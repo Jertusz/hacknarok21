@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0007_auto_20210327_2119'),
+        ("api", "0007_auto_20210327_2119"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='log',
-            name='session_id',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='api.sessionlog'),
+            model_name="log",
+            name="session_id",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="api.sessionlog",
+            ),
         ),
     ]

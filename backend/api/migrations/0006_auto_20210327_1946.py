@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0005_auto_20210327_1946'),
+        ("api", "0005_auto_20210327_1946"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='sessionlog',
-            name='users',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), default=list, size=None),
+            model_name="sessionlog",
+            name="users",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.CharField(max_length=255), default=list, size=None
+            ),
         ),
     ]

@@ -7,16 +7,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SessionLog',
+            name="SessionLog",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('session_id', models.CharField(max_length=255)),
-                ('users', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), size=None)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("session_id", models.CharField(max_length=255)),
+                (
+                    "users",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255), size=None
+                    ),
+                ),
             ],
         ),
     ]
