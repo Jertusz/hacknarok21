@@ -1,6 +1,5 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from channels.auth import channel_session_user_
 
 
 class SessionConsumer(AsyncWebsocketConsumer):
@@ -8,10 +7,11 @@ class SessionConsumer(AsyncWebsocketConsumer):
     async def close(self, code):
         return super().close(code=code)
 
-    @channel_session_user_from_http
     async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['session_id']
-        self.room_group_name = 'chat_%s' % self.room_name
+        self.session_id = self.scope['url_route']['kwargs']['session_id']
+        self.user_name = self.scope['url_route']['kwargs']['username']
+        self.is_admin = self.scope['url_route']['kwargs']['admin']
+        self.room_group_name = 'session_%s' % self.session_id
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -28,19 +28,60 @@ class SessionConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        event_type = text_data_json['type']
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'exercise_solved',
-                'message': message
-            }
-        )
+        if event_type == 'question_answered':
+            answer = text_data_json['answer']
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': event_type,
+                    'answer': answer,
+                    'user': self.user_name
+                }
+            )
+        elif event_type == 'question_asked':
+            question = text_data_json['question']
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': event_type,
+                    'question': question,
+                    'user': self.user_name
+                }
+            )
+        elif event_type == 'show_activity_question':
+            if self.is_admin:
+                question = text_data_json['question']
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        'type': event_type,
+                        'question': question,
+                    }
+                )
+        elif event_type == 'hide_activity_question':
+            if self.is_admin:
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        'type': event_type,
+                        'message': 'hide',
+                    }
+                )
 
     async def question_answered(self, event):
-        message = event['answer']
+        user = event['user']
+        answer = event['answer']
 
         await self.send(text_data=json.dumps({
-            'answer': message
+            'answer': answer,
+            'user': user
+        }))
+
+    async def question_asked(self, event):
+        question = event['question']
+
+        await self.send(text_data=json.dumps({
+            'question': question
         }))

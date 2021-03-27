@@ -288,4 +288,4 @@ ephemeris*.json
 /static/
 
 # Shit
-../.idea/
+../.idea
