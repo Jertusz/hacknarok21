@@ -1,22 +1,29 @@
 <template>
-    <Menubar :model="items" />
+    <Menubar :model="items">
+        <template #end>
+            <p class="text-xl">Session token: <b>{{ sessionCode }}</b></p>
+        </template>
+    </Menubar>
 </template>
 
 <script>
     import Menubar from 'primevue/menubar';
     export default {
         name: "OptionsNavbar",
+        props: ["sessionCode"],
         components : {
             Menubar
         },
         data(){
             return {
+                code: "",
                 items: [
                     {
                         label: 'Ask question',
                         icon: 'pi pi-question-circle',
                         command: () => {
-                            this.$emit("asking-question", prompt("Zadaj pytanie uczniom:"));
+                            // const promptEvent = prompt("Zadaj pytanie uczniom:");
+                            this.$emit("asking-question");
                         }
                     },
                     {

@@ -17,6 +17,21 @@
     import CreateSupervisionSessionButton from "../../atoms/InitPopup/CreateSupervisionSessionButton";
     import CreateSessionButton from "../../atoms/InitPopup/CreateSessionButton";
     import BackHomeButton from "../../atoms/InitPopup/BackHomeButton";
+
+    const generateCode = () => {
+        const availableCharacters = "ABCDEFGHIJKLMNOPQRSTVUWXYZabcdefghijklmnopqrstuvxyz123456789";
+        let result = "";
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        for(let i = 0; i < 12; i++){
+            result += availableCharacters[getRandomInt(0, availableCharacters.length)];
+        }
+        return result;
+    }
+
     export default {
         name: "SessionCreationPanel",
         components: {
@@ -39,10 +54,20 @@
                 this.$emit("back");
             },
             createQuickSession(){
-                window.open("options.html");
+                const newCode = generateCode();
+                browser.storage.local.set({
+                    sessionCode: newCode
+                }).then(_ => {
+                    window.open("options.html");
+                });
             },
             createSupervisionSession(){
-                window.open("options.html");
+                const newCode = generateCode();
+                browser.storage.local.set({
+                    sessionCode: newCode
+                }).then(_ => {
+                    window.open("options.html");
+                });
             }
         }
     }
