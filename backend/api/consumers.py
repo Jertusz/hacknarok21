@@ -82,6 +82,17 @@ class SessionConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         await self.accept()
+        await database_sync_to_async(generic_log)(
+            self.user_name, self.session_id, "connected", f"{self.user_name} has connected"
+        )
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": "connected",
+                    "username": self.user_name,
+                }
+            )
+        )
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
@@ -112,12 +123,14 @@ class SessionConsumer(AsyncWebsocketConsumer):
                 custom_question=question_from_db,
             )
             await database_sync_to_async(add_answer_to_db)(custom_answer_in_db)
-            print(
-                custom_answer_in_db.session_id,
-                custom_answer_in_db.username,
-                custom_answer_in_db.custom_question.content,
-                custom_answer_in_db.answer,
-                custom_answer_in_db.pk,
+            await self.send(
+                text_data=json.dumps(
+                    {
+                        "type": event_type,
+                        "username": self.user_name,
+                        "question_id": question_id,
+                    }
+                )
             )
 
         elif event_type == "custom_question_asked":
@@ -176,6 +189,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
         await self.send(
             text_data=json.dumps(
                 {
+                    "type": event["type"],
                     "question": question,
                     "question_id": question_id,
                 }
@@ -188,19 +202,31 @@ class SessionConsumer(AsyncWebsocketConsumer):
         await database_sync_to_async(activity_answered)(
             self.user_name, question, answer
         )
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": event["type"],
+                    "question": question,
+                    "username": self.user_name})
+        )
 
     async def custom_question_asked(self, event):
         question = event["question"]
         question_id = event["question_id"]
 
         await self.send(
-            text_data=json.dumps({"question": question, "question_id": question_id})
+            text_data=json.dumps(
+                {
+                    "type": event["type"],
+                    "question": question,
+                    "question_id": question_id})
         )
 
-    async def hide(self):
+    async def hide(self, event):
         await self.send(
             text_data=json.dumps(
                 {
+                    "type": event["type"],
                     "message": "hide",
                 }
             )
@@ -215,6 +241,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
         await self.send(
             text_data=json.dumps(
                 {
+                    "type": event["type"],
                     "username": self.user_name,
                     "action": action,
                     "text": text,
