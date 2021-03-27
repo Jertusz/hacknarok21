@@ -13,10 +13,10 @@
 </template>
 
 <script>
-    import CreateQuickSessionButton from "../atoms/CreateQuickSessionButton";
-    import CreateSupervisionSessionButton from "../atoms/CreateSupervisionSessionButton";
-    import CreateSessionButton from "../atoms/CreateSessionButton";
-    import BackHomeButton from "../atoms/BackHomeButton";
+    import CreateQuickSessionButton from "../../atoms/InitPopup/CreateQuickSessionButton";
+    import CreateSupervisionSessionButton from "../../atoms/InitPopup/CreateSupervisionSessionButton";
+    import CreateSessionButton from "../../atoms/InitPopup/CreateSessionButton";
+    import BackHomeButton from "../../atoms/InitPopup/BackHomeButton";
     export default {
         name: "SessionCreationPanel",
         components: {

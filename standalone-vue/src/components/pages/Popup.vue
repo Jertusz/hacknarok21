@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import PopupFooter from "../atoms/PopupFooter";
-import PopupHeader from "../atoms/PopupHeader";
-import SessionCreationPanel from "../organisms/SessionCreationPanel";
-import SessionJoiningPanel from "../organisms/SessionJoiningPanel";
+import PopupFooter from "../atoms/InitPopup/PopupFooter";
+import PopupHeader from "../atoms/InitPopup/PopupHeader";
+import SessionCreationPanel from "../organisms/InitPopup/SessionCreationPanel";
+import SessionJoiningPanel from "../organisms/InitPopup/SessionJoiningPanel";
 
 export default {
     name: "Popup",
