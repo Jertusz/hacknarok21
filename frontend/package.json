@@ -43,11 +43,56 @@
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.3",
     "vue-template-compiler": "^2.6.11"
+    "npm-watch": "^0.9.0"
   },
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.0",
     "vue": "^2.6.11"
+  },
+  "watch": {
+    "build:bg": {
+      "patterns": [
+        "src/background"
+      ],
+      "ignore": "__tests__",
+      "extensions": "js,jsx,vue,html,ts,tsx"
+    },
+    "build:content": {
+      "patterns": [
+        "src/content"
+      ],
+      "ignore": "__tests__",
+      "extensions": "js,jsx,vue,html,ts,tsx"
+    },
+    "build:devtools": {
+      "patterns": [
+        "src/devtools"
+      ],
+      "ignore": "__tests__",
+      "extensions": "js,jsx,vue,html,ts,tsx"
+    },
+    "build:devtools:app": {
+      "patterns": [
+        "src/devtools"
+      ],
+      "ignore": "__tests__",
+      "extensions": "js,jsx,vue,html,ts,tsx"
+    },
+    "build:options": {
+      "patterns": [
+        "src/options"
+      ],
+      "ignore": "__tests__",
+      "extensions": "js,jsx,vue,html,ts,tsx"
+    },
+    "build:popup": {
+      "patterns": [
+        "src/popup"
+      ],
+      "ignore": "__tests__",
+      "extensions": "js,jsx,vue,html,ts,tsx"
+    }
   }
 }
