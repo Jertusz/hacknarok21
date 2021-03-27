@@ -13,45 +13,45 @@
             return {
                 items: [
                     {
-                        label:'Ask question',
-                        icon:'pi pi-question-circle',
+                        label: 'Ask question',
+                        icon: 'pi pi-question-circle',
                         command: () => {
-                            this.emitEvent("asking-question");
+                            this.$emit("asking-question", prompt("Zadaj pytanie uczniom:"));
                         }
                     },
                     {
-                        label:'Activity log',
-                        icon:'pi pi-list',
+                        label: 'Activity log',
+                        icon: 'pi pi-list',
                         command: () => {
-                            this.emitEvent("activity-log");
+                            this.requestSceneChange("ActivityLog");
                         }
                     },
                     {
-                        label:'Questions log',
-                        icon:'pi pi-comments',
+                        label: 'Questions log',
+                        icon: 'pi pi-comments',
                         command: () => {
-                            this.emitEvent("questions-log");
+                            this.requestSceneChange("QuestionsLog");
                         }
                     },
                     {
-                        label:'Members list',
-                        icon:'pi pi-users',
+                        label: 'Members list',
+                        icon: 'pi pi-users',
                         command: () => {
-                            this.emitEvent("members-list");
+                            this.requestSceneChange("MembersList");
                         }
                     },
                     {
-                        label:'Terminate session',
-                        icon:'pi pi-fw pi-power-off',
+                        label: 'Terminate session',
+                        icon: 'pi pi-fw pi-power-off',
                         command: () => {
-                            this.emitEvent("terminated");
+                            this.requestSceneChange("TerminatedView");
                         }
                     }
                 ]
             }
         },
         methods: {
-            emitEvent(name){
+            requestSceneChange(name){
                 this.$emit("selected", name);
             }
         }

@@ -2,8 +2,8 @@
     <div class="col w-full">
         <create-session-button @click="startCreation" v-if="!mode.isCreating && !mode.isJoining" />
         <div class="col w-full">
-            <create-quick-session-button v-if="mode.isCreating" />
-            <create-supervision-session-button v-if="mode.isCreating" />
+            <create-quick-session-button @clicked="createQuickSession" v-if="mode.isCreating" />
+            <create-supervision-session-button @clicked="createSupervisionSession" v-if="mode.isCreating" />
         </div>
         <footer v-if="mode.isCreating">
             <hr class="my-1" />
@@ -37,6 +37,12 @@
             },
             stopCreation(){
                 this.$emit("back");
+            },
+            createQuickSession(){
+                window.open("options.html");
+            },
+            createSupervisionSession(){
+                window.open("options.html");
             }
         }
     }
