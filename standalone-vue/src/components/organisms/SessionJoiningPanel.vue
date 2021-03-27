@@ -1,12 +1,12 @@
 <template>
-    <div class="col">
+    <div class="flex-col w-full">
         <join-session-button @click="startJoining" v-if="!mode.isCreating && !mode.isJoining" />
-        <form class="row" v-if="mode.isJoining">
-            <InputText v-model="name" />
-            <InputText v-model="token" />
+        <form class="flex flex-col w-full" v-if="mode.isJoining">
+            <InputText v-model="name" placeholder="Your name..." class="m-1 w-full"/>
+            <InputText v-model="token" placeholder="Session token..." class="m-1 w-full"/>
         </form>
         <footer v-if="mode.isJoining">
-            <hr />
+            <hr class="my-1" />
             <back-home-button @click="stopJoining" />
         </footer>
     </div>
@@ -52,12 +52,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-    .row {
-        justify-content: space-between;
-    }
-    .col {
-        flex-direction: column;
     }
     hr {
         width: 80%;

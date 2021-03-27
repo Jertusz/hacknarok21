@@ -1,6 +1,6 @@
 <template>
-    <footer>
-        <hr />
+    <footer class="text-sm">
+        <hr class="my-1"/>
         <p>Napotkałeś problem? <a href="mailto:s17839@pjwstk.edu.pl">Skontaktuj się</a> z nami!</p>
     </footer>
 </template>
@@ -21,9 +21,6 @@ footer {
 }
 hr {
     width: 80%;
-}
-p {
-    font-size: 18px;
 }
 a {
     text-decoration: none;

@@ -1,7 +1,7 @@
 <template>
     <header>
-        <h1>Insightful</h1>
-        <hr />
+        <h1 class="text-lg">Insightful</h1>
+        <hr class="my-1"/>
     </header>
 </template>
 
@@ -18,9 +18,6 @@ header {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-h1 {
-    font-size: 16px;
 }
 hr {
     width: 80%;

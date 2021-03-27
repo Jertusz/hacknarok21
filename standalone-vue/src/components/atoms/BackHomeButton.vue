@@ -1,5 +1,5 @@
 <template>
-    <Button label="Back" class="p-button-secondary p-button-text p-button-sm" @click="$emit('click')"/>
+    <Button label="Back" class="p-button-secondary p-button-text p-button-sm mb-1" @click="$emit('click')"/>
 </template>
 
 <script>

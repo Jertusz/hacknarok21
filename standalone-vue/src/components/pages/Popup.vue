@@ -1,11 +1,11 @@
 <template>
     <aside>
         <popup-header />
-        <main>
+        <main class="w-11/12">
             <session-creation-panel :mode="mode" @start-creation="enterCreationMode" @back="resetMode" />
             <session-joining-panel :mode="mode" @start-joining="enterJoiningMode" @back="resetMode" />
         </main>
-        <popup-footer />
+        <popup-footer v-if="!isCreating && !isJoining" />
     </aside>
 </template>
 
@@ -61,7 +61,7 @@ export default {
         min-height: 400px;
         max-height: 650px;
         border: 4px solid #323232;
-        border-radius: 20px;
+        border-radius: 4px;
         display: flex;
         justify-content: center;
         align-items: center;

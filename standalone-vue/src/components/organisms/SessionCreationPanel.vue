@@ -1,12 +1,12 @@
 <template>
-    <div class="col">
+    <div class="col w-full">
         <create-session-button @click="startCreation" v-if="!mode.isCreating && !mode.isJoining" />
-        <div class="row">
+        <div class="col w-full">
             <create-quick-session-button v-if="mode.isCreating" />
             <create-supervision-session-button v-if="mode.isCreating" />
         </div>
         <footer v-if="mode.isCreating">
-            <hr />
+            <hr class="my-1" />
             <back-home-button @click="stopCreation" />
         </footer>
     </div>
