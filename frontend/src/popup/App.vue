@@ -1,22 +1,21 @@
 <template>
-    <div>
-        <one />
+    <div id="app">
+        <Popup />
     </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import one from '@/components/one.vue';
+<script>
+import Popup from '../components/pages/Popup.vue';
 
-export default Vue.extend({
-    name: 'App',
-    components: { one },
-});
+export default {
+    components: {
+        Popup,
+    },
+};
 </script>
 
 <style>
-html {
-    width: 400px;
-    height: 400px;
+#app {
+    min-width: 400px;
 }
 </style>

@@ -1,20 +1,17 @@
 <template>
-  <hello-world />
+    <div id="app">
+        <Options />
+    </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
+<script>
+import Options from '../components/pages/Options.vue';
 
-export default Vue.extend({
-  name: "App",
-  components: { HelloWorld },
-});
+export default {
+    components: {
+        Options,
+    },
+};
 </script>
 
-<style>
-html {
-  width: 400px;
-  height: 400px;
-}
-</style>
+<style></style>
