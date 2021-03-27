@@ -3,20 +3,6 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.contrib.postgres.fields import ArrayField
 
-STATUS = (
-    ("GD", "Good"),
-    ("BD", "Bad"),
-    ("NN", "None"),
-    ("NT", "Neutral")
-)
-
-ACTIONS = (
-    ("CC", "Change Card"),
-    ("SE", "Session Enrollment Change"),
-    ("CW", "Clicked Different Window"),
-    ("AQ", "Answered Question")
-)
-
 
 class SessionLog(models.Model):
     session_id = models.CharField(max_length=255)
@@ -38,7 +24,7 @@ class ActivityLog(models.Model):
         verbose_name_plural = _("activitylogs")
 
     def __str__(self):
-        return self.session_id.session_id+"_"+self.question.content
+        return self.session_id.session_id + "_" + self.question.content
 
     def get_absolute_url(self):
         return reverse("activitylog_detail", kwargs={"pk": self.pk})
