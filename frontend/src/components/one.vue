@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <p>HELLO!</p>
-    <Button label="COKOLWIEK WPISZ" />
-  </div>
+  <div><Button label="LOL DZIAŁA" /></div>
 </template>
 
 <script>
