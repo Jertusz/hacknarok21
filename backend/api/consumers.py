@@ -1,6 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from .models import CustomQuestion, CustomQuestionLog
+import random
+from .models import CustomQuestion, CustomQuestionLog, Question, ActivityLog
 from channels.db import database_sync_to_async
 
 
@@ -14,6 +15,12 @@ def get_question(question_id):
 
 def add_answer_to_db(answer):
     answer.save()
+
+
+def get_random_question():
+    questions = Question.objects.values_list('pk', flat=True)
+    random_pk = random.choice(questions)
+    return Question.objects.get(pk=random_pk)
 
 
 class SessionConsumer(AsyncWebsocketConsumer):
@@ -80,15 +87,15 @@ class SessionConsumer(AsyncWebsocketConsumer):
 
         elif event_type == 'show_activity_question':
             if self.is_admin:
-                question = text_data_json['question']
+                question = await database_sync_to_async(get_random_question)()
                 await self.channel_layer.group_send(
                     self.room_group_name,
                     {
                         'type': event_type,
-                        'question': question,
+                        'question': question.content,
                     }
                 )
-        elif event_type == 'hide_activity_question':
+        elif event_type == 'hide':
             if self.is_admin:
                 await self.channel_layer.group_send(
                     self.room_group_name,
@@ -107,6 +114,12 @@ class SessionConsumer(AsyncWebsocketConsumer):
     #         'user': user
     #     }))
 
+    async def show_activity_question(self, event):
+        question = event["question"]
+        await self.send(text_data=json.dumps({
+            'question': question,
+        }))
+
     async def custom_question_asked(self, event):
         question = event['question']
         question_id = event['question_id']
@@ -116,4 +129,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
             'question_id': question_id
         }))
 
-
+    async def hide(self):
+        await self.send(text_data=json.dumps({
+            'message': 'hide',
+        }))
