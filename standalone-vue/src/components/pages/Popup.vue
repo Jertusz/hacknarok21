@@ -1,8 +1,10 @@
 <template>
     <aside>
         <popup-header />
-        <session-creation-panel />
-        <session-joining-panel />
+        <main>
+            <session-creation-panel :mode="mode" @start-creation="enterCreationMode" @back="resetMode" />
+            <session-joining-panel :mode="mode" @start-joining="enterJoiningMode" @back="resetMode" />
+        </main>
         <popup-footer />
     </aside>
 </template>
@@ -20,10 +22,50 @@ export default {
         SessionCreationPanel,
         PopupHeader,
         PopupFooter
+    },
+    data(){
+        return {
+            isCreating: false,
+            isJoining: false
+        }
+    },
+    computed: {
+        mode(){
+            return {
+                isJoining: this.isJoining,
+                isCreating: this.isCreating
+            }
+        }
+    },
+    methods: {
+        enterCreationMode(){
+            this.isJoining = false;
+            this.isCreating = true;
+        },
+        enterJoiningMode(){
+            this.isCreating = false;
+            this.isJoining = true;
+        },
+        resetMode(){
+            this.isCreating = false;
+            this.isJoining = false;
+        }
     }
 }
 </script>
 
 <style scoped>
+
+    aside {
+        max-width: 400px;
+        min-height: 400px;
+        max-height: 650px;
+        border: 4px solid #323232;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
 
 </style>

@@ -1,5 +1,7 @@
 <template>
-
+<div>
+    Options page
+</div>
 </template>
 
 <script>
