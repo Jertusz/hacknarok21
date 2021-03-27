@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,7 +51,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'settings.urls'
+STATIC_URL = "/api/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "..", "static")
 
 TEMPLATES = [
     {
@@ -67,19 +71,31 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'settings.wsgi.application'
+ASGI_APPLICATION = 'settings.asgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+database_name = config("database_name")
+test_database_name = config("test_database_name")
+database_user = config("database_user")
+database_password = config("database_password")
+database_host = config("database_host", default="localhost")
+database_port = config("database_port", default=5432, cast=int)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': database_name,
+        'USER': database_user,
+        'HOST': database_host,
+        'PORT': database_port,
+        'TEST': {
+            'NAME': test_database_name,
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

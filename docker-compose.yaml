@@ -19,13 +19,11 @@ services:
       context: backend/
       dockerfile: Dockerfile
     # example for Django + postgres 
-    # command: >
-    #   bash -c "wait-for-it -t 0 db:5432 &&
-    #   printf 'yes' | python /code/manage.py collectstatic &&
-    #   python /code/manage.py migrate &&
-    #   python /code/manage.py loaddata account.json &&
-    #   python /code/manage.py loaddata teams.json &&
-    #   python -m uvicorn ephemerisAPI.asgi:application --reload --host 0.0.0.0 --port 8000 --log-level info --use-colors"
+    command: >
+      bash -c "wait-for-it -t 0 db:5432 &&
+      printf 'yes' | python /code/manage.py collectstatic &&
+      python /code/manage.py migrate &&
+      python -m uvicorn settings.asgi:application --reload --host 0.0.0.0 --port 8000 --log-level info --use-colors"
 
     environment:
       - database_host=db

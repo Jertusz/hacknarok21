@@ -1,4 +1,5 @@
 FROM python:3.8.6-slim
+RUN apt update && apt install wait-for-it -y
 
 ENV PYTHONFAULTHANDLER=1
 ENV PYTHONUNBUFFERED=1
