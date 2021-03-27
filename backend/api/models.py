@@ -17,8 +17,15 @@ ACTIONS = (
     ("AQ", "Answered Question")
 )
 
-class ActivityLog(models.Model):
+
+class SessionLog(models.Model):
     session_id = models.CharField(max_length=255)
+    users = ArrayField(models.CharField(max_length=255), default=list)
+    admin = models.CharField(max_length=255, null=True)
+
+
+class ActivityLog(models.Model):
+    session_id = models.ForeignKey(SessionLog, on_delete=models.CASCADE)
 
     answered_right = ArrayField(models.CharField(max_length=255))
     no_answer = ArrayField(models.CharField(max_length=255))

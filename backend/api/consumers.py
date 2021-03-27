@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 import random
-from .models import CustomQuestion, CustomQuestionLog, Question, ActivityLog
+from .models import CustomQuestion, CustomQuestionLog, Question, ActivityLog, SessionLog
 from channels.db import database_sync_to_async
 
 
@@ -23,6 +23,19 @@ def get_random_question():
     return Question.objects.get(pk=random_pk)
 
 
+def create_or_update_session(session_id, username, is_admin):
+    if not SessionLog.objects.filter(session_id=session_id).exists():
+        if is_admin == "True":
+            new_session = SessionLog(session_id=session_id, admin=username)
+            new_session.save()
+    else:
+        if is_admin == "False":
+            session_in_db = SessionLog.objects.get(session_id=session_id)
+            session_in_db.users.append(username)
+            session_in_db.save()
+            print(session_in_db.users)
+
+
 class SessionConsumer(AsyncWebsocketConsumer):
 
     async def close(self, code):
@@ -33,6 +46,8 @@ class SessionConsumer(AsyncWebsocketConsumer):
         self.user_name = self.scope['url_route']['kwargs']['username']
         self.is_admin = self.scope['url_route']['kwargs']['admin']
         self.room_group_name = 'session_%s' % self.session_id
+
+        await database_sync_to_async(create_or_update_session)(self.session_id, self.user_name, self.is_admin)
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -93,6 +108,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     {
                         'type': event_type,
                         'question': question.content,
+                        'question_id': question.pk,
                     }
                 )
         elif event_type == 'hide':
@@ -101,9 +117,16 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     self.room_group_name,
                     {
                         'type': event_type,
-                        'message': 'hide',
                     }
                 )
+
+        elif event_type == 'activity_question_answered':
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': event_type,
+                }
+            )
 
     # async def custom_question_answered(self, event):
     #     user = event['user']
@@ -116,8 +139,10 @@ class SessionConsumer(AsyncWebsocketConsumer):
 
     async def show_activity_question(self, event):
         question = event["question"]
+        question_id = event["question_id"]
         await self.send(text_data=json.dumps({
             'question': question,
+            'question_id': question_id,
         }))
 
     async def custom_question_asked(self, event):
