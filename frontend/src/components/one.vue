@@ -1,14 +1,25 @@
 <template>
-  <div><Button label="LOL DZIAŁA" /></div>
+    <div><Button label="LOL DZIAŁA" @click="sendToBg" /></div>
 </template>
 
 <script>
-import Button from "primevue/button";
+import Button from 'primevue/button';
 
 export default {
-  components: {
-    Button,
-  },
+    methods: {
+        sendToBg() {
+            let sending = browser.runtime.sendMessage({ greet: 'message-From_popup' });
+            sending.then((res) => {
+                console.log(res)
+            });
+        },
+    },
+    data() {
+        return {};
+    },
+    components: {
+        Button,
+    },
 };
 </script>
 

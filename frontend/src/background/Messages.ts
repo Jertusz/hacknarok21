@@ -1,0 +1,3 @@
+enum MESSAGES {
+    SEND,
+}

@@ -1,24 +1,22 @@
 <template>
-<div>
-  <one/>
-  <two/>
-</div>
+    <div>
+        <one />
+    </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import one from "@/components/one.vue";
-import two from "@/components/two.vue";
+import Vue from 'vue';
+import one from '@/components/one.vue';
 
 export default Vue.extend({
-  name: "App",
-  components: { one, two },
+    name: 'App',
+    components: { one },
 });
 </script>
 
 <style>
 html {
-  width: 400px;
-  height: 400px;
+    width: 400px;
+    height: 400px;
 }
 </style>
