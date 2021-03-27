@@ -62,15 +62,19 @@ class SessionConsumer(AsyncWebsocketConsumer):
                                                     custom_question=question_from_db)
             await database_sync_to_async(add_answer_to_db)(custom_answer_in_db)
             print(custom_answer_in_db.session_id, custom_answer_in_db.username,
-                  custom_answer_in_db.custom_question.content, custom_answer_in_db.answer)
+                  custom_answer_in_db.custom_question.content, custom_answer_in_db.answer, custom_answer_in_db.pk)
 
         elif event_type == 'custom_question_asked':
             question = text_data_json['question']
+            if self.is_admin:
+                question_in_db = CustomQuestion(session_id=self.session_id, content=question)
+                await database_sync_to_async(add_question_to_db)(question_in_db)
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     'type': event_type,
                     'question': question,
+                    'question_id': question_in_db.pk
                 }
             )
 
@@ -105,12 +109,11 @@ class SessionConsumer(AsyncWebsocketConsumer):
 
     async def custom_question_asked(self, event):
         question = event['question']
+        question_id = event['question_id']
 
-        question_in_db = CustomQuestion(session_id=self.session_id, content=question)
-        await database_sync_to_async(add_question_to_db)(question_in_db)
         await self.send(text_data=json.dumps({
             'question': question,
-            'question_id': question_in_db.pk
+            'question_id': question_id
         }))
 
 
