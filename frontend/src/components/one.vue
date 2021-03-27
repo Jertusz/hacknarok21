@@ -1,5 +1,9 @@
 <template>
-    <div><Button label="LOL DZIAŁA" @click="sendToBg" /></div>
+    <div>
+        <Button label="connect" @click="connect" />
+        <Button label="send" @click="send" />
+        <Button label="disconnect" @click="disconnect" />
+    </div>
 </template>
 
 <script>
@@ -8,11 +12,14 @@ import Communicator from '../background/Communicator.ts';
 
 export default {
     methods: {
-        sendToBg() {
-            let sending = browser.runtime.sendMessage({ greet: 'message-From_popup' });
-            sending.then((res) => {
-                console.log(res);
-            });
+        connect() {
+            Communicator.connect('ws://127.0.0.1:8000/ws/sessions/gowno/zygi/False/');
+        },
+        send() {
+            Communicator.send(JSON.stringify({ type: 'custom_question_asked', question: 'Jakies pytania?' }));
+        },
+        disconnect() {
+            Communicator.disconnect();
         },
     },
     data() {

@@ -1,22 +1,13 @@
+import WS_MESSAGE_TYPES from './WSMessageTypes';
+
 export default class Communicator {
-    private static instance: Communicator;
-
-    private constructor();
-
-    static getInstance() {
-        if (Communicator.instance === undefined) {
-            Communicator.instance = new Communicator();
-        }
-        return Communicator.instance;
+    static connect(url: string): Promise<any> {
+        return browser.runtime.sendMessage({ type: WS_MESSAGE_TYPES.CONNECT, content: url });
     }
-
-    connect(url: string) {
-        return undefined;
+    static disconnect(): Promise<any> {
+        return browser.runtime.sendMessage({ type: WS_MESSAGE_TYPES.DISCONNECT, content: '' });
     }
-    disconnect() {
-        return undefined;
-    }
-    send(event: { type: MESSAGES; content: string }) {
-        return undefined;
+    static send(event: { type: WS_MESSAGE_TYPES; content: string }): Promise<any> {
+        return browser.runtime.sendMessage({ type: WS_MESSAGE_TYPES.SEND, content: event });
     }
 }

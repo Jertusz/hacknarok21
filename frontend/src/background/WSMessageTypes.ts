@@ -1,6 +1,6 @@
-enum MESSAGES {
+enum WS_MESSAGE_TYPES {
     CONNECT = 'CONNECT',
     SEND = 'SEND',
     DISCONNECT = 'DISCONNECT',
 }
-export default MESSAGES;
+export default WS_MESSAGE_TYPES;
