@@ -27,9 +27,9 @@ class SessionLog(models.Model):
 class ActivityLog(models.Model):
     session_id = models.ForeignKey(SessionLog, on_delete=models.CASCADE)
 
-    answered_right = ArrayField(models.CharField(max_length=255))
-    no_answer = ArrayField(models.CharField(max_length=255))
-    answered_wrong = ArrayField(models.CharField(max_length=255))
+    answered_right = ArrayField(models.CharField(max_length=255), default=list)
+    no_answer = ArrayField(models.CharField(max_length=255), default=list)
+    answered_wrong = ArrayField(models.CharField(max_length=255), default=list)
 
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
 
@@ -38,7 +38,7 @@ class ActivityLog(models.Model):
         verbose_name_plural = _("activitylogs")
 
     def __str__(self):
-        return self.question
+        return self.session_id.session_id+"_"+self.question.content
 
     def get_absolute_url(self):
         return reverse("activitylog_detail", kwargs={"pk": self.pk})
