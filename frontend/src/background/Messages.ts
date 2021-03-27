@@ -1,3 +1,6 @@
 enum MESSAGES {
-    SEND,
+    CONNECT = 'CONNECT',
+    SEND = 'SEND',
+    DISCONNECT = 'DISCONNECT',
 }
+export default MESSAGES;
