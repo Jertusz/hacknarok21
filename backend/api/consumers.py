@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 import random
-from .models import CustomQuestion, CustomQuestionLog, Question, ActivityLog, SessionLog
+from .models import CustomQuestion, CustomQuestionLog, Question, ActivityLog, SessionLog, Log
 from channels.db import database_sync_to_async
 
 
@@ -26,6 +26,12 @@ def get_random_question(session_id):
     new_activity_question.save()
 
     return new_activity_question
+
+
+def generic_log(username, session_id, action, text):
+    session_in_db = SessionLog.objects.get(session_id=session_id)
+    log = Log(session_id=session_in_db, action=action, text=text, student=username)
+    log.save()
 
 
 def create_or_update_session(session_id, username, is_admin):
@@ -136,7 +142,16 @@ class SessionConsumer(AsyncWebsocketConsumer):
                 )
 
         elif event_type == 'generic':
-            pass
+            action = text_data_json['action']
+            text = text_data_json['text']
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': event_type,
+                    'action': action,
+                    'text': text,
+                }
+            )
 
     async def show_activity_question(self, event):
         question = event["question"]
@@ -163,4 +178,14 @@ class SessionConsumer(AsyncWebsocketConsumer):
     async def hide(self):
         await self.send(text_data=json.dumps({
             'message': 'hide',
+        }))
+
+    async def generic(self, event):
+        action = event['action']
+        text = event['text']
+        await database_sync_to_async(generic_log)(self.user_name, self.session_id, action, text)
+        await self.send(text_data=json.dumps({
+            'username': self.user_name,
+            'action': action,
+            'text': text,
         }))

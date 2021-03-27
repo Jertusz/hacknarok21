@@ -61,6 +61,7 @@ class CustomQuestionLog(models.Model):
 class Log(models.Model):
     """Log in teacher's log view
     """
+    session_id = models.ForeignKey(SessionLog, on_delete=models.CASCADE, null=True)
     action = models.CharField(max_length=255)
     text = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
