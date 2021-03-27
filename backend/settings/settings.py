@@ -83,7 +83,7 @@ database_name = config("database_name", default="Production")
 test_database_name = config("test_database_name", "Unittest")
 database_user = config("database_user", default="Backend")
 database_password = config(
-    "database_password", default="d122da0c-7aa0-4579-8607-f7d007eb4d83"
+    "database_password", default="postgres"
 )
 database_host = config("database_host", default="localhost")
 database_port = config("database_port", default=5432, cast=int)
@@ -92,6 +92,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": database_name,
         "USER": database_user,
+        "PASSWORD": database_password,
         "HOST": database_host,
         "PORT": database_port,
         "TEST": {
