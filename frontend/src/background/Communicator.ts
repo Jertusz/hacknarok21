@@ -7,8 +7,12 @@ export const COMMUNICATOR_TARGET_ID = 'Communicator.ts';
 let eventListeners = new Map();
 
 function callCallbacks(request: any, sender: any, sendResponse: any) {
-    if (request.for == COMMUNICATOR_TARGET_ID) {
+    console.log(request);
+    console.log(COMMUNICATOR_TARGET_ID);
+    if (request.for === COMMUNICATOR_TARGET_ID) {
+        console.log(eventListeners);
         const listener = eventListeners.get(request.call);
+        console.log(listener);
         listener(request.data);
     }
 }
@@ -54,9 +58,12 @@ export class Communicator {
             content: { type: event, content: content },
         });
     }
-    static registerListener(event: ALL_EVENTS, callback: () => null): string {
+    static registerListener(event: ALL_EVENTS, callback: Function): string {
         const code = generateCode();
         eventListeners.set(code, callback);
+
+        console.log(eventListeners);
+        
         browser.runtime.sendMessage({
             for: BACKGROUND_TARGET_ID,
             type: WS_MESSAGE_TYPES.REGISTER,

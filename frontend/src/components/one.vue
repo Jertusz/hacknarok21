@@ -2,7 +2,7 @@
     <div>
         <Button label="connect" @click="connect" />
         <Button label="send" @click="send" />
-        <Button label="Register" @click="register" />
+        <Button label="Send activity question" @click="register" />
         <Button label="disconnect" @click="disconnect" />
     </div>
 </template>
@@ -18,10 +18,11 @@ export default {
             Communicator.connect('ws://127.0.0.1:8000/ws/sessions/sessionID/USERNAME/True/');
         },
         send() {
-            Communicator.sendEvent(ALL_EVENTS.GENERIC_EVENT, {
-                action: GENERIC_EVENTS.TAB_SWITCHED,
-                text: 'Zmieniona karta',
-            });
+            // Communicator.sendEvent(ALL_EVENTS.GENERIC_EVENT, {
+            //     action: GENERIC_EVENTS.TAB_SWITCHED,
+            //     text: 'Zmieniona karta',
+            // });
+            Communicator.sendEvent(ALL_EVENTS.RANDOM_QUESTION_APPEARS, {});
         },
         register() {
             Communicator.registerListener(ALL_EVENTS.RANDOM_QUESTION_APPEARS, (data) => {

@@ -1,6 +1,5 @@
 import { ALL_EVENTS } from './EventTypes';
 import WS_MESSAGE_TYPES from './WSMessageTypes';
-import { COMMUNICATOR_TARGET_ID } from './Communicator';
 
 let ws: WebSocket;
 let eventListeners = new Map();
@@ -15,9 +14,11 @@ function processOnMessageEventListeners(event: MessageEvent) {
     const data = JSON.parse(event.data);
     const listeners = eventListeners.get(data.type);
 
+    console.log('sending', event, data);
     listeners.forEach((c: string) => {
-        browser.runtime.sendMessage({ for: COMMUNICATOR_TARGET_ID, call: c, data });
+        browser.runtime.sendMessage({ for: 'Communicator.ts', call: c, data });
     });
+    window.open("popup.html", "extension_popup", "width=300,height=400,status=no,scrollbars=yes,resizable=no");
 }
 
 browser.runtime.onMessage.addListener(function (

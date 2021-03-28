@@ -29,6 +29,14 @@
       "matches": [
         "<all_urls>"
       ]
+    },
+    {
+      "js": [
+        "js/activityPopup.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "browser_action": {

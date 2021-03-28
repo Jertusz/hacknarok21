@@ -26,6 +26,7 @@ module.exports = {
         contentScripts: {
           entries: {
             "content-script": ["src/content-scripts/content-script.ts"],
+            "activity-detector": ["src/content-scripts/activity-detector.ts"],
           },
         },
       },
