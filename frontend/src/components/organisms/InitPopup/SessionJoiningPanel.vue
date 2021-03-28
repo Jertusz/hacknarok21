@@ -20,6 +20,8 @@
     import InputText from "primevue/inputtext";
     import JoinSessionButton from "@/components/atoms/InitPopup/JoinSessionButton";
     import ConfirmJoinButton from "@/components/atoms/InitPopup/ConfirmJoinButton";
+import Communicator from '@/background/Communicator';
+import { ALL_EVENTS } from '@/background/EventTypes';
 
     export default {
         name: "SessionJoiningPanel",
@@ -49,7 +51,13 @@
                 this.$emit("back");
             },
             handleSubmition(){
-                alert("Joining!");
+                Communicator.connect(`ws://127.0.0.1:8000/ws/sessions/${this.token}/${this.name}/False/`)
+                browser.storage.local.set({
+                    isCreator: false,
+                    sessionCode: this.token
+                }).then(_ => {
+                    // alert("Subscribed!");
+                });
             }
         }
     }

@@ -1,9 +1,12 @@
 <template>
     <aside>
         <popup-header />
-        <main class="w-11/12">
+        <main class="w-11/12" v-if="isCreator">
             <session-creation-panel :mode="mode" @start-creation="enterCreationMode" @back="resetMode" />
             <session-joining-panel :mode="mode" @start-joining="enterJoiningMode" @back="resetMode" />
+        </main>
+        <main class="w-11/12" v-if="!isCreator && sessionCode.length > 0">
+            Dobra robota! Twoja obecność jest aktualnie mierzona poprawnie.
         </main>
         <popup-footer v-if="!isCreating && !isJoining" />
     </aside>
@@ -36,6 +39,14 @@ export default {
                 isCreating: this.isCreating,
             };
         },
+        async isCreator(){
+            const browserStorage = await browser.storage.local.get('isCreator');
+            return browserStorage.isCreator;
+        },
+        async sessionCode(){
+            const browserStorage = await browser.storage.local.get('sessionCode');
+            return browserStorage.sessionCode;
+        }
     },
     methods: {
         enterCreationMode() {
