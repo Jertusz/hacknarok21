@@ -1,17 +1,27 @@
 <template>
     <aside>
+
         <popup-header />
+
         <main class="w-11/12" v-if="isCreator">
             <session-creation-panel :mode="mode" @start-creation="enterCreationMode" @back="resetMode" />
             <session-joining-panel :mode="mode" @start-joining="enterJoiningMode" @back="resetMode" />
         </main>
-        <main class="w-11/12" v-if="!isCreator && sessionCode.length > 0">
+
+        <main class="w-11/12" v-if="isJustUser">
             Dobra robota! Twoja obecność jest aktualnie mierzona poprawnie.
         </main>
-        <main v-if="isPrompted"><ActivityPopup question="Czy jesteś obecny duchem?" /></main>
+
+        <main v-if="isPrompted">
+            <ActivityPopup question="Czy jesteś obecny duchem?" />
+        </main>
+
         <popup-footer v-if="!isCreating && !isJoining" />
+
         <hr />
+
         <one />
+
     </aside>
 </template>
 
@@ -54,9 +64,17 @@ export default {
             const browserStorage = await browser.storage.local.get('sessionCode');
             return browserStorage.sessionCode;
         },
+        isJustUser(){
+            if(this.sessionCode === undefined) return false
+            if(this.isCreator === undefined) return false
+            return !this.isCreator && this.sessionCode.length > 0;
+        },
         isPrompted() {
-            let result = window.location.href.split('?')[1];
-            return result.length > 0;
+            return false;
+            // console.log(window.location.href);
+            // return true;
+            // let result = window.location.href.split('?')[1];
+            // return result.length > 0;
         },
     },
     methods: {
@@ -78,7 +96,8 @@ export default {
 
 <style scoped>
 aside {
-    max-width: 400px;
+    min-width: 400px;
+    max-width: 500px;
     min-height: 400px;
     max-height: 650px;
     border: 4px solid #323232;

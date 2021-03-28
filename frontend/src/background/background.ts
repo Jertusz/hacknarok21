@@ -19,7 +19,7 @@ function processOnMessageEventListeners(event: MessageEvent) {
         browser.runtime.sendMessage({ for: 'Communicator.ts', call: c, data });
     });
     if (event.data.type === ALL_EVENTS.RANDOM_QUESTION_APPEARS) {
-        window.open('popup.html', 'extension_popup', 'width=300,height=400,status=no,scrollbars=yes,resizable=no,question=true');
+        window.open('popup.html?question=true', 'extension_popup', 'status=no,scrollbars=yes,resizable=no,question=true');
     }
 }
 
