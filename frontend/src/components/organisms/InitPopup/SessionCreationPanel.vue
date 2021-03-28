@@ -56,6 +56,7 @@
             createQuickSession(){
                 const newCode = generateCode();
                 browser.storage.local.set({
+                    isCreator: true,
                     sessionCode: newCode
                 }).then(_ => {
                     window.open("options.html");
@@ -64,6 +65,7 @@
             createSupervisionSession(){
                 const newCode = generateCode();
                 browser.storage.local.set({
+                    isCreator: true,
                     sessionCode: newCode
                 }).then(_ => {
                     window.open("options.html");

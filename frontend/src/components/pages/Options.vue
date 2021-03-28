@@ -4,6 +4,7 @@
         @selected="changeScene"
         @asking-question="pushQuestion"
         @show-users-list="usersList = true"
+        v-if="scene !== 'TerminatedView'"
         :session-code="code"
     />
 

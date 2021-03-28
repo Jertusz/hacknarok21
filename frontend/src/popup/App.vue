@@ -10,7 +10,7 @@ import Popup from '../components/pages/Popup.vue';
 export default {
     components: {
         Popup,
-    },
+    }
 };
 </script>
 
