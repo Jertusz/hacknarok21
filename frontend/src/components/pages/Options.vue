@@ -207,19 +207,58 @@
             },
             register(){
                 Communicator.registerListener(ALL_EVENTS.GENERIC_EVENT,(data)=>{
-                    console.log("Pushing",data)
-                    this.events.push({
+
+                    const getColor = (type) => {
+                        const green = "#289417", red = "#ae1818", orange = "#FF9800", blue = "'#2d62b8'";
+                        if (type === ALL_EVENTS.ANSWER_RANDOM_QUESTION) return green;
+                        if (type === ALL_EVENTS.ANSWER_TEACHERS_QUESTION) return green;
+                        if (type === ALL_EVENTS.TEACHER_QUESTION_APPEARS) return blue;
+                        if (type === ALL_EVENTS.QUESTION_TIMEOUT) return red;
+                        if (type === ALL_EVENTS.CONNECTED) return green;
+                        if (type === ALL_EVENTS.DISCONNECTED) return red;
+                        if (type === ALL_EVENTS.RANDOM_QUESTION_APPEARS) return blue;
+                        if (type === GENERIC_EVENTS.JOINED_SESSION) return green;
+                        if (type === GENERIC_EVENTS.RETURNED_TAB) return green;
+                        if (type === GENERIC_EVENTS.LEFT_SESSION) return red;
+                        if (type === GENERIC_EVENTS.WINDOW_SWITCHED) return red;
+                        if (type === GENERIC_EVENTS.TAB_SWITCHED) return orange;
+                        if (type === GENERIC_EVENTS.MOUSE_INACTIVE) return orange;
+                        else return blue;
+                    }
+
+                    const getIcon = (type) => {
+                        if (type === ALL_EVENTS.ANSWER_RANDOM_QUESTION) return "pi pi-check";
+                        if (type === ALL_EVENTS.ANSWER_TEACHERS_QUESTION) return "pi pi-check";
+                        if (type === ALL_EVENTS.TEACHER_QUESTION_APPEARS) return "pi pi-question-circle";
+                        if (type === ALL_EVENTS.QUESTION_TIMEOUT) return "pi pi-clock";
+                        if (type === ALL_EVENTS.CONNECTED) return "pi pi-user-plus";
+                        if (type === ALL_EVENTS.DISCONNECTED) return "pi pi-user-minus";
+                        if (type === ALL_EVENTS.RANDOM_QUESTION_APPEARS) return "pi pi-question-circle";
+                        if (type === GENERIC_EVENTS.JOINED_SESSION) return "pi pi-user-plus";
+                        if (type === GENERIC_EVENTS.RETURNED_TAB) return "pi pi-replay";
+                        if (type === GENERIC_EVENTS.LEFT_SESSION) return "pi pi-user-minus";
+                        if (type === GENERIC_EVENTS.WINDOW_SWITCHED) return "pi pi-window-minimize";
+                        if (type === GENERIC_EVENTS.TAB_SWITCHED) return "pi pi-external-link";
+                        if (type === GENERIC_EVENTS.MOUSE_INACTIVE) return "pi pi-pause";
+                        else return "pi pi-question";
+                    }
+
+                    const logEntry = {
                         type: data.type,
                         person: data.username,
                         text: data.text,
                         date: data.timestamp,
-                        icon: 'pi pi-check',
-                        color: '#ff9800'
-                    })
+                        icon: getIcon(data.type),
+                        color: getColor(data.type)
+                    };
+
+                    if(data.username === "ADMIN") logEntry.person = "";
+
+                    this.events.push(logEntry);
                 });
             }
         },
-        
+
         async mounted() {
             const browserStorage = await browser.storage.local.get('sessionCode');
             this.code = browserStorage.sessionCode;

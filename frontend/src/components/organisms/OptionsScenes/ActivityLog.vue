@@ -55,7 +55,7 @@
         },
         methods: {
             filterFn(){
-                if(this.filterType === "logDefault") this.eventsIn = this.events.filter((i)=>{
+                if(this.filterType === "logDefault") this.eventsIn = this.events.slice().filter((i)=>{
                     if(i.type === ALL_EVENTS.QUESTION_TIMEOUT) return true;
                     if(i.type === GENERIC_EVENTS.MOUSE_INACTIVE) return true;
                     if(i.type === GENERIC_EVENTS.TAB_SWITCHED) return true;
@@ -65,8 +65,8 @@
                     if(i.type === ALL_EVENTS.TEACHER_QUESTION_APPEARS) return true;
                     return false;
                 });
-                if(this.filterType === "logAll") this.eventsIn = this.events;
-                if(this.filterType === "logNegatives") this.eventsIn = this.events.filter((i)=>{
+                if(this.filterType === "logAll") this.eventsIn = this.events.slice();
+                if(this.filterType === "logNegatives") this.eventsIn = this.events.slice().filter((i)=>{
                     if(i.type === ALL_EVENTS.QUESTION_TIMEOUT) return true;
                     if(i.type === GENERIC_EVENTS.MOUSE_INACTIVE) return true;
                     if(i.type === GENERIC_EVENTS.TAB_SWITCHED) return true;
