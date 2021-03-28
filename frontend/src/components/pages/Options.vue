@@ -1,18 +1,33 @@
 <template>
 <div>
-    <OptionsNavbar @selected="changeScene" @asking-question="pushQuestion" :session-code="code"/>
+    <OptionsNavbar
+        @selected="changeScene"
+        @asking-question="pushQuestion"
+        @show-users-list="usersList = true"
+        :session-code="code"
+    />
 
     <div class="mt-12">
-        <component :is="scene" :questions="questions" :events="events"/>
+        <component :is="scene" :questions="questions" :events="events" />
     </div>
 
-    <Dialog header="Header" :visible.sync="currentlyAsking" :style="{width: '35vw'}" :modal="true">
-        <InputText v-model="question" placeholder="Enter your question..." class="m-1 w-80"/>
+    <Dialog :visible.sync="currentlyAsking" :style="{ width: '35vw' }" :modal="true" :closable="false">
+        <InputText v-model="question" placeholder="Enter your question..." class="p-inputtext-lg m-1 w-4/5" />
         <template #footer>
             <Button label="Cancel" icon="pi pi-times"  @click="cancelQuestion" class="p-button-text"/>
             <Button label="Confirm" icon="pi pi-check" @click="submitQuestion" autofocus />
         </template>
     </Dialog>
+
+    <Sidebar :visible.sync="usersList" position="right" :showCloseIcon="false" @hide="usersList = false">
+        <ul v-for="user of users">
+            <li class="flex items-center p-3">
+                <Avatar :label="user.charAt(0).toUpperCase()" class="mr-2" />
+                <p>{{ user }}</p>
+            </li>
+        </ul>
+    </Sidebar>
+
 </div>
 </template>
 <script lang="js">
@@ -24,6 +39,8 @@
     import Dialog from 'primevue/dialog';
     import InputText from "primevue/inputtext";
     import Button from "primevue/button";
+    import Sidebar from 'primevue/sidebar';
+    import Avatar from 'primevue/avatar';
     import {ALL_EVENTS, GENERIC_EVENTS} from "@/background/EventTypes";
 
     const events = [
@@ -52,9 +69,17 @@
             color: '#FF9800'
         },
         {
+            type: GENERIC_EVENTS.RETURNED_TAB,
+            person: "Paweł P.",
+            text: 'powrócił na kartę.',
+            date: '15/10/2020 16:15',
+            icon: 'pi pi-replay',
+            color: '#289417'
+        },
+        {
             type: ALL_EVENTS.TEACHER_QUESTION_APPEARS,
-            person: "",
-            text: 'Zadano pytanie',
+            person: "Zadano pytanie",
+            text: '',
             date: '16/10/2020 10:00',
             icon: 'pi pi-question-circle',
             color: '#2d62b8'
@@ -84,13 +109,46 @@
             color: '#FF9800'
         },
         {
-            type: "du",
+            type: ALL_EVENTS.ANSWER_RANDOM_QUESTION,
             person: "Filip D.",
-            text: 'nie rusza myszką. 2',
+            text: 'wykazał aktywności.',
+            date: '15/10/2020 10:30',
+            icon: 'pi pi-check',
+            color: '#289417'
+        },
+        {
+            type: ALL_EVENTS.ANSWER_TEACHERS_QUESTION,
+            person: "Filip D.",
+            text: 'Odpowiedział na pytanie',
             date: '16/10/2020 10:00',
-            icon: 'pi pi-pause',
-            color: '#FF9800'
+            icon: 'pi pi-check',
+            color: '#289417'
         }
+    ];
+    const questions = [
+        {
+            title: "What is the purpose of life?",
+            answers: [
+                { person: "Benedykt K.", answer: "retro 1:1 czemu gify nie działają", time: "15/10/2020 10:30" },
+                { person: "Jędrzej S.", answer: "python.serializers", time: "15/10/2020 10:30"  },
+                { person: "Paweł P.", answer: "Big endian", time: "15/10/2020 10:30"  },
+            ]
+        },
+        {
+            title: "What is the purpose of life 2?",
+            answers: [
+                { person: "Jędrzej S.", answer: "python.models", time: "15/10/2020 10:30"  },
+                { person: "Benedykt K.", answer: "retro 2:2 czemu gify nie działają", time: "15/10/2020 10:30"  },
+                { person: "Paweł P.", answer: "Little endian", time: "15/10/2020 10:30"  },
+            ]
+        }
+    ];
+    const users = [
+        "Benedykt K.",
+        "Filip D.",
+        "Paweł P.",
+        "Jędrzej Sz.",
+        "Paweł B."
     ];
 
     export default {
@@ -103,16 +161,20 @@
             MembersList,
             Dialog,
             InputText,
+            Sidebar,
+            Avatar,
             Button
         },
         data(){
             return {
                 scene: "activity-log",
                 currentlyAsking: false,
+                usersList: false,
                 question: "",
                 code: "",
-                questions: [],
-                events
+                questions,
+                events,
+                users
             }
         },
         methods: {
@@ -128,7 +190,12 @@
                 this.scene = scene;
             },
             submitQuestion(){
-                this.questions.push(this.question);
+                this.questions.push(
+                    {
+                        title: this.question,
+                        answers: []
+                    }
+                );
                 this.currentlyAsking = false;
                 this.question = "";
             },
@@ -145,5 +212,8 @@
 </script>
 
 <style scoped>
-
+/deep/ .p-dialog-content {
+    display: flex;
+    justify-content: center;
+}
 </style>
