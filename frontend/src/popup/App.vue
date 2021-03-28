@@ -9,8 +9,8 @@ import One from '../components/one.vue';
 
 export default {
     components: {
-        One,
-    },
+        Popup,
+    }
 };
 </script>
 

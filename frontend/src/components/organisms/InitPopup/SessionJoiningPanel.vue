@@ -49,7 +49,12 @@
                 this.$emit("back");
             },
             handleSubmition(){
-                alert("Joining!");
+                browser.storage.local.set({
+                    isCreator: false,
+                    sessionCode: this.token
+                }).then(_ => {
+                    alert("Subscribed!");
+                });
             }
         }
     }
