@@ -25,7 +25,6 @@
                     {
                         label: 'Ask question',
                         icon: 'pi pi-question-circle',
-                        class: "green-option",
                         command: () => {
                             // const promptEvent = prompt("Zadaj pytanie uczniom:");
                             this.$emit("asking-question");
@@ -55,7 +54,6 @@
                     {
                         label: 'Terminate session',
                         icon: 'pi pi-fw pi-power-off',
-                        class: "red-option",
                         command: () => {
                             this.requestSceneChange("TerminatedView");
                         }

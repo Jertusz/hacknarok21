@@ -34,10 +34,10 @@ export default {
 
     computed: {
         id() {
-            return window.location.href.split('?')[1].split('&')[1].split('=')[1];
+            return window.location.href.split('?')[1].split('&')[1].split('=')[1]+"?";
         },
         question() {
-            return window.location.href.split('?')[1].split('&')[0].split('=')[1];
+            return window.location.href.split('?')[1].split('&')[0].split('=')[1]+"?";
         },
     },
     mounted() {

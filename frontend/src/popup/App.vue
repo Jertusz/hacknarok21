@@ -20,7 +20,6 @@
 
         <hr />
 
-        <one />
 
     </aside>
 </template>
