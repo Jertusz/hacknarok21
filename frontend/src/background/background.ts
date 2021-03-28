@@ -18,7 +18,9 @@ function processOnMessageEventListeners(event: MessageEvent) {
     listeners.forEach((c: string) => {
         browser.runtime.sendMessage({ for: 'Communicator.ts', call: c, data });
     });
-    window.open("popup.html", "extension_popup", "width=300,height=400,status=no,scrollbars=yes,resizable=no");
+    if (event.data.type === ALL_EVENTS.RANDOM_QUESTION_APPEARS) {
+        window.open('popup.html', 'extension_popup', 'width=300,height=400,status=no,scrollbars=yes,resizable=no,question=true');
+    }
 }
 
 browser.runtime.onMessage.addListener(function (

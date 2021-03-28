@@ -8,6 +8,7 @@
         <main class="w-11/12" v-if="!isCreator && sessionCode.length > 0">
             Dobra robota! Twoja obecność jest aktualnie mierzona poprawnie.
         </main>
+        <main v-if="isPrompted"><ActivityPopup question="Czy jesteś obecny duchem?" /></main>
         <popup-footer v-if="!isCreating && !isJoining" />
         <hr />
         <one />
@@ -19,7 +20,8 @@ import PopupFooter from '../components/atoms/InitPopup/PopupFooter';
 import PopupHeader from '../components/atoms/InitPopup/PopupHeader';
 import SessionCreationPanel from '../components/organisms/InitPopup/SessionCreationPanel';
 import SessionJoiningPanel from '../components/organisms/InitPopup/SessionJoiningPanel';
-import One from "@/components/one";
+import One from '@/components/one';
+import ActivityPopup from '@/components/atoms/InitPopup/activityPopup.vue';
 
 export default {
     name: 'Popup',
@@ -29,6 +31,7 @@ export default {
         SessionCreationPanel,
         PopupHeader,
         PopupFooter,
+        ActivityPopup,
     },
     data() {
         return {
@@ -43,14 +46,18 @@ export default {
                 isCreating: this.isCreating,
             };
         },
-        async isCreator(){
+        async isCreator() {
             const browserStorage = await browser.storage.local.get('isCreator');
             return browserStorage.isCreator;
         },
-        async sessionCode(){
+        async sessionCode() {
             const browserStorage = await browser.storage.local.get('sessionCode');
             return browserStorage.sessionCode;
-        }
+        },
+        isPrompted() {
+            let result = window.location.href.split('?')[1];
+            return result.length > 0;
+        },
     },
     methods: {
         enterCreationMode() {
