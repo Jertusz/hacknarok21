@@ -9,7 +9,7 @@
     />
 
     <div class="mt-12">
-        <component :is="scene" :questions="questions" :events="events" />
+        <component :is="scene" :questions="questions" :events="events" :users="users" />
     </div>
 
     <Dialog :visible.sync="currentlyAsking" :style="{ width: '35vw' }" :modal="true" :closable="false">
