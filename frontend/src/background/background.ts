@@ -2,13 +2,11 @@ import { ALL_EVENTS } from './EventTypes';
 import WS_MESSAGE_TYPES from './WSMessageTypes';
 
 let ws: WebSocket;
-const eventListeners = new Map();
+let eventListeners = new Map();
 
 for (const item of Object.values(ALL_EVENTS)) {
     eventListeners.set(item, []);
 }
-
-console.log(eventListeners);
 
 function processOnMessageEventListeners(event: MessageEvent) {
     const data = JSON.parse(event.data);
@@ -42,6 +40,10 @@ browser.runtime.onMessage.addListener(function (
         }
         case WS_MESSAGE_TYPES.DISCONNECT: {
             ws.close();
+            eventListeners = new Map();
+            for (const item of Object.values(ALL_EVENTS)) {
+                eventListeners.set(item, []);
+            }
             break;
         }
         case WS_MESSAGE_TYPES.REGISTER: {
@@ -51,7 +53,7 @@ browser.runtime.onMessage.addListener(function (
         }
         case WS_MESSAGE_TYPES.UNREGISTER: {
             let arr = eventListeners.get(request.content.event);
-            arr = arr.filter((elem:string) => elem === request.content.id);
+            arr = arr.filter((elem: string) => elem === request.content.id);
             eventListeners.set(request.content.event, arr);
         }
     }

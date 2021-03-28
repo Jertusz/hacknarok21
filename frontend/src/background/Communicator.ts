@@ -3,7 +3,7 @@ import WS_MESSAGE_TYPES from './WSMessageTypes';
 
 const MESSAGE_TARGET_ID = 'Communicator.ts';
 
-const eventListeners = new Map();
+let eventListeners = new Map();
 
 function callCallbacks(request: any, sender: any, sendResponse: any) {
     if (request.for == MESSAGE_TARGET_ID) {
@@ -32,6 +32,7 @@ class Communicator {
         return browser.runtime.sendMessage({ type: WS_MESSAGE_TYPES.CONNECT, content: url });
     }
     static disconnect(): Promise<any> {
+        eventListeners = new Map();
         return browser.runtime.sendMessage({ type: WS_MESSAGE_TYPES.DISCONNECT, content: '' });
     }
     static sendGeneric(event: { type: WS_MESSAGE_TYPES; content: any }): Promise<any> {
@@ -43,12 +44,19 @@ class Communicator {
             content: { type: event, content: content },
         });
     }
-    static registerListener(event: ALL_EVENTS, callback: () => null) {
+    static registerListener(event: ALL_EVENTS, callback: () => null): string {
         const code = generateCode();
         eventListeners.set(code, callback);
         browser.runtime.sendMessage({
             type: WS_MESSAGE_TYPES.REGISTER,
             content: { event: event, id: code },
+        });
+        return code;
+    }
+    static unregisterListener(event: ALL_EVENTS, handle: string) {
+        browser.runtime.sendMessage({
+            type: WS_MESSAGE_TYPES.UNREGISTER,
+            content: { event, id: handle },
         });
     }
 }

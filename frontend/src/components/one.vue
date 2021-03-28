@@ -24,6 +24,9 @@ export default {
             });
         },
         register() {
+            Communicator.registerListener(ALL_EVENTS.RANDOM_QUESTION_APPEARS, (data) => {
+                console.log(data);
+            });
             Communicator.registerListener(ALL_EVENTS.GENERIC_EVENT, (data) => {
                 this.generic_events.push(data);
             });
