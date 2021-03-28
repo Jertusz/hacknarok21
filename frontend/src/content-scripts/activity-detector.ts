@@ -36,8 +36,13 @@ Communicator.registerListener(ALL_EVENTS.RANDOM_QUESTION_APPEARS, (data: any) =>
     console.log(data);
 });
 
-let timeoutHandle = setTimeout(() => {}, Infinity);
+let timeoutHandle = setTimeout(() => {}, Number.MAX_VALUE - 1);
 document.onmousemove = () => {
-    if (timeoutHandle) {
-    }
+    clearTimeout(timeoutHandle);
+    setTimeout(() => {
+        Communicator.sendEvent(ALL_EVENTS.GENERIC_EVENT, {
+            action: GENERIC_EVENTS.MOUSE_INACTIVE,
+            text: 'Nie używa myszy od 10 minut',
+        });
+    }, 1000 * 60 * 10); // 10 minut
 };
