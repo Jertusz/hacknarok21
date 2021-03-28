@@ -286,3 +286,6 @@ ephemeris*.json
 
 # static files from manage.py collectstatic
 /static/
+
+# Shit
+../.idea
