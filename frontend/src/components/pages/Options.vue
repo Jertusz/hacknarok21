@@ -43,6 +43,7 @@
     import Sidebar from 'primevue/sidebar';
     import Avatar from 'primevue/avatar';
     import {ALL_EVENTS, GENERIC_EVENTS} from "@/background/EventTypes";
+    import Communicator from "@/background/Communicator.ts";
 
     const events = [
         {
@@ -174,7 +175,7 @@
                 question: "",
                 code: "",
                 questions,
-                events,
+                events:events.slice(),
                 users
             }
         },
@@ -203,11 +204,28 @@
             cancelQuestion(){
                 this.currentlyAsking = false;
                 this.question = "";
+            },
+            register(){
+                Communicator.registerListener(ALL_EVENTS.GENERIC_EVENT,(data)=>{
+                    console.log("Pushing",data)
+                    this.events.push({
+                        type: data.type,
+                        person: data.username,
+                        text: data.text,
+                        date: data.timestamp,
+                        icon: 'pi pi-check',
+                        color: '#ff9800'
+                    })
+                });
             }
         },
+        
         async mounted() {
             const browserStorage = await browser.storage.local.get('sessionCode');
             this.code = browserStorage.sessionCode;
+            window.onload=()=>{
+                this.register()
+            }
         }
     }
 </script>

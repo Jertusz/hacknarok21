@@ -31,10 +31,6 @@ document.onvisibilitychange = (event) => {
         }
     }
 };
-console.log('registered');
-Communicator.registerListener(ALL_EVENTS.RANDOM_QUESTION_APPEARS, (data: any) => {
-    console.log(data);
-});
 
 let timeoutHandle = setTimeout(() => {}, Number.MAX_VALUE - 1);
 document.onmousemove = () => {

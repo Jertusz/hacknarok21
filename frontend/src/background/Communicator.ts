@@ -7,12 +7,12 @@ export const COMMUNICATOR_TARGET_ID = 'Communicator.ts';
 let eventListeners:any = {};
 
 function callCallbacks(request: any, sender: any, sendResponse: any) {
-    console.error(request);
-    console.error(COMMUNICATOR_TARGET_ID);
+    console.log(request);
+    console.log(COMMUNICATOR_TARGET_ID);
     if (request.for === COMMUNICATOR_TARGET_ID) {
-        console.error(eventListeners);
+        console.log(eventListeners);
         const funkcja = eventListeners[request.call];
-        console.error(funkcja);
+        console.log(funkcja);
         funkcja(request.data);
     }
 }
@@ -68,8 +68,6 @@ export class Communicator {
 
         console.log('registerListener', eventListeners, event);
         console.log(callback);
-        callback({ type: 'asdasd' });
-
         browser.runtime.sendMessage({
             for: BACKGROUND_TARGET_ID,
             type: WS_MESSAGE_TYPES.REGISTER,

@@ -56,7 +56,7 @@ import { ALL_EVENTS } from '@/background/EventTypes';
                     isCreator: false,
                     sessionCode: this.token
                 }).then(_ => {
-                    alert("Subscribed!");
+                    // alert("Subscribed!");
                 });
             }
         }

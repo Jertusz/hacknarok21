@@ -17,6 +17,7 @@
     import CreateSupervisionSessionButton from "../../atoms/InitPopup/CreateSupervisionSessionButton";
     import CreateSessionButton from "../../atoms/InitPopup/CreateSessionButton";
     import BackHomeButton from "../../atoms/InitPopup/BackHomeButton";
+    import Connector from '@/background/Communicator'
 
     const generateCode = () => {
         const availableCharacters = "ABCDEFGHIJKLMNOPQRSTVUWXYZabcdefghijklmnopqrstuvxyz123456789";
@@ -55,6 +56,7 @@
             },
             createQuickSession(){
                 const newCode = generateCode();
+                Connector.connect(`ws://127.0.0.1:8000/ws/sessions/${newCode}/ADMIN/True/`)
                 browser.storage.local.set({
                     isCreator: true,
                     sessionCode: newCode
@@ -64,6 +66,7 @@
             },
             createSupervisionSession(){
                 const newCode = generateCode();
+                Connector.connect(`ws://127.0.0.1:8000/ws/sessions/${newCode}/ADMIN/True/`)
                 browser.storage.local.set({
                     isCreator: true,
                     sessionCode: newCode
