@@ -9,18 +9,22 @@
             Dobra robota! Twoja obecność jest aktualnie mierzona poprawnie.
         </main>
         <popup-footer v-if="!isCreating && !isJoining" />
+        <hr />
+        <one />
     </aside>
 </template>
 
 <script>
-import PopupFooter from '../atoms/InitPopup/PopupFooter';
-import PopupHeader from '../atoms/InitPopup/PopupHeader';
-import SessionCreationPanel from '../organisms/InitPopup/SessionCreationPanel';
-import SessionJoiningPanel from '../organisms/InitPopup/SessionJoiningPanel';
+import PopupFooter from '../components/atoms/InitPopup/PopupFooter';
+import PopupHeader from '../components/atoms/InitPopup/PopupHeader';
+import SessionCreationPanel from '../components/organisms/InitPopup/SessionCreationPanel';
+import SessionJoiningPanel from '../components/organisms/InitPopup/SessionJoiningPanel';
+import One from "@/components/one";
 
 export default {
     name: 'Popup',
     components: {
+        One,
         SessionJoiningPanel,
         SessionCreationPanel,
         PopupHeader,
