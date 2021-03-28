@@ -1,30 +1,24 @@
-# chrome-extension-ts-starter
+# 1
 
-It is a boilerplate for a Chrome Extension built with TypeScript and Parcel.
+## Project setup
+```
+npm install
+```
 
-## This starter consists of the following parts
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-* Background script (vanilla TS)
-* Content script (vanilla TS)
-* Options page (Vue.js, Sass)
-* Popup page (Vue.js, Sass)
-* DevTools panel page (React.js, Styled Components)
+### Compiles and minifies for production
+```
+npm run build
+```
 
-_And, of course, the `./manifest.json` file describing its configuration._
+### Lints and fixes files
+```
+npm run lint
+```
 
-## Environment
-
-* Node.js >=12.0.0
-* NPM >= 6.0.0
-
-_Most probably it will work with earlier versions too but I didn't test it._
-
-## Testing
-
-`Jest` is included and ready for the vanilla TS parts. Testing for React/Vue is not included in order to keep the Jest config clean.
-
-## Scripts
-
-* `npm run dist` - build the extension into `./dist` folder
-* `npm run lint` - ESLint for `.ts` and `.tsx` files
-* `npm run test` - Jest unit tests
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

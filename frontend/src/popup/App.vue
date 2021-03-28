@@ -1,26 +1,21 @@
 <template>
-  <div class="container">
-    <h1>{{ message }}</h1>
-  </div>
+    <div id="app">
+        <Popup />
+    </div>
 </template>
 
-<script lang="ts">
+<script>
+import Popup from '../components/pages/Popup.vue';
+
 export default {
-  name: 'App',
-  data() {
-    return {
-      message: 'Hey, it is the Popup page running on Vue.js!',
-    };
-  },
+    components: {
+        Popup,
+    },
 };
 </script>
 
-<style scoped lang="scss">
-  .container {
-    text-align: center;
-
-    h1 {
-      font-weight: 600;
-    }
-  }
+<style>
+#app {
+    min-width: 400px;
+}
 </style>
