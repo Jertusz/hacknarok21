@@ -98,6 +98,15 @@ class SessionConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": "disconnected",
+                    "username": self.user_name,
+                    "timestamp": str(datetime.now()),
+                }
+            )
+        )
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
