@@ -1,5 +1,6 @@
 import json
 import random
+from datetime import datetime
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -90,6 +91,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                 {
                     "type": "connected",
                     "username": self.user_name,
+                    "timestamp": str(datetime.now()),
                 }
             )
         )
@@ -110,6 +112,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     "type": event_type,
                     "answer": answer,
                     "question_id": question_id,
+                    "timestamp": str(datetime.now()),
                 },
             )
         elif event_type == "custom_question_answered":
@@ -129,6 +132,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                         "type": event_type,
                         "username": self.user_name,
                         "question_id": question_id,
+                        "timestamp": str(datetime.now()),
                     }
                 )
             )
@@ -146,6 +150,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     "type": event_type,
                     "question": question,
                     "question_id": question_in_db.pk,
+                    "timestamp": str(datetime.now()),
                 },
             )
 
@@ -180,6 +185,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     "type": event_type,
                     "action": action,
                     "text": text,
+                    "timestamp": str(datetime.now()),
                 },
             )
 
@@ -192,6 +198,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     "type": event["type"],
                     "question": question,
                     "question_id": question_id,
+                    "timestamp": str(datetime.now()),
                 }
             )
         )
@@ -207,11 +214,14 @@ class SessionConsumer(AsyncWebsocketConsumer):
                 {
                     "type": event["type"],
                     "question": question,
-                    "username": self.user_name})
+                    "username": self.user_name,
+                    "timestamp": str(datetime.now()),
+                })
         )
 
     async def custom_question_asked(self, event):
         question = event["question"]
+
         question_id = event["question_id"]
 
         await self.send(
@@ -219,7 +229,9 @@ class SessionConsumer(AsyncWebsocketConsumer):
                 {
                     "type": event["type"],
                     "question": question,
-                    "question_id": question_id})
+                    "question_id": question_id,
+                    "timestamp": str(datetime.now()),
+                })
         )
 
     async def hide(self, event):
@@ -228,6 +240,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                 {
                     "type": event["type"],
                     "message": "hide",
+                    "timestamp": str(datetime.now()),
                 }
             )
         )
@@ -245,6 +258,7 @@ class SessionConsumer(AsyncWebsocketConsumer):
                     "username": self.user_name,
                     "action": action,
                     "text": text,
+                    "timestamp": str(datetime.now()),
                 }
             )
         )
