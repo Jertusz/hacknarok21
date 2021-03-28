@@ -1,15 +1,15 @@
 <template>
     <div id="app">
-        <Popup />
+        <One />
     </div>
 </template>
 
 <script>
-import Popup from '../components/pages/Popup.vue';
+import One from '../components/one.vue';
 
 export default {
     components: {
-        Popup,
+        One,
     },
 };
 </script>

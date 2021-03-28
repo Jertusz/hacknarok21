@@ -9,7 +9,7 @@
 
 <script>
 import Button from 'primevue/button';
-import Communicator from '../background/Communicator.ts';
+import { Communicator } from '../background/Communicator.ts';
 import { ALL_EVENTS, GENERIC_EVENTS } from '@/background/EventTypes';
 
 export default {
