@@ -3,7 +3,7 @@
         <SelectButton v-model="filterType" :options="filterTypes" optionLabel="label" optionValue="value" />
         <Timeline :value="eventsIn" align="right" class="customized-timeline mt-6">
             <template #opposite="slotProps">
-                <p class="text-opacity-25">{{ slotProps.item.date }}</p>
+                <p class="text-opacity-25">{{ formatDate(slotProps.item.date) }}</p>
             </template>
             <template #marker="slotProps">
                 <span class="custom-marker p-shadow-2" :style="{backgroundColor: slotProps.item.color}">
@@ -54,6 +54,18 @@
             }
         },
         methods: {
+            formatDate(timestamp){
+                const dt = new Date(timestamp);
+
+                const days = dt.getDay() < 10 ? `0${dt.getDay()}` : `${dt.getDay()}`;
+                const months = dt.getMonth() < 10 ? `0${dt.getMonth()}` : `${dt.getMonth()}`;
+                const years = dt.getFullYear();
+
+                const hours = dt.getHours() < 10 ? `0${dt.getHours()}` : `${dt.getHours()}`;;
+                const minutes = dt.getMinutes() < 10 ? `0${dt.getMinutes()}` : `${dt.getMinutes()}`;;
+
+                return days + "." + months + "." + years + " | " + hours + ":" + minutes;
+            },
             filterFn(){
                 if(this.filterType === "logDefault") this.eventsIn = this.events.slice().filter((i)=>{
                     if(i.type === ALL_EVENTS.QUESTION_TIMEOUT) return true;
