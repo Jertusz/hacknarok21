@@ -2,8 +2,8 @@
     <div class="col w-full">
         <create-session-button @click="startCreation" v-if="!mode.isCreating && !mode.isJoining" />
         <div class="col w-full">
-            <create-quick-session-button v-if="mode.isCreating" />
-            <create-supervision-session-button v-if="mode.isCreating" />
+            <create-quick-session-button @clicked="createQuickSession" v-if="mode.isCreating" />
+            <create-supervision-session-button @clicked="createSupervisionSession" v-if="mode.isCreating" />
         </div>
         <footer v-if="mode.isCreating">
             <hr class="my-1" />
@@ -17,6 +17,21 @@
     import CreateSupervisionSessionButton from "../../atoms/InitPopup/CreateSupervisionSessionButton";
     import CreateSessionButton from "../../atoms/InitPopup/CreateSessionButton";
     import BackHomeButton from "../../atoms/InitPopup/BackHomeButton";
+
+    const generateCode = () => {
+        const availableCharacters = "ABCDEFGHIJKLMNOPQRSTVUWXYZabcdefghijklmnopqrstuvxyz123456789";
+        let result = "";
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        for(let i = 0; i < 12; i++){
+            result += availableCharacters[getRandomInt(0, availableCharacters.length)];
+        }
+        return result;
+    }
+
     export default {
         name: "SessionCreationPanel",
         components: {
@@ -37,6 +52,22 @@
             },
             stopCreation(){
                 this.$emit("back");
+            },
+            createQuickSession(){
+                const newCode = generateCode();
+                browser.storage.local.set({
+                    sessionCode: newCode
+                }).then(_ => {
+                    window.open("options.html");
+                });
+            },
+            createSupervisionSession(){
+                const newCode = generateCode();
+                browser.storage.local.set({
+                    sessionCode: newCode
+                }).then(_ => {
+                    window.open("options.html");
+                });
             }
         }
     }

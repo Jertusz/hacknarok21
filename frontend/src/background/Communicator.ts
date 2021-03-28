@@ -72,3 +72,4 @@ export class Communicator {
         });
     }
 }
+export default Communicator;
