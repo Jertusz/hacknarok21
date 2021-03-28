@@ -10,19 +10,19 @@ services:
       - 5432:5432
     volumes:
       - psql:/var/lib/postgresql/data/
-    networks:
-      default:
-        aliases:
-          - db
+#    networks:
+#      default:
+#        aliases:
+#          - db
 
   redis:
     image: redis:6
     ports:
       - 6379:6379
-    networks:
-      default:
-        aliases:
-          - redis
+#    networks:
+#      default:
+#        aliases:
+#          - redis
 
   backend:
     build:
@@ -35,14 +35,13 @@ services:
       python /code/manage.py migrate &&
       python -m uvicorn settings.asgi:application --reload --host 0.0.0.0 --port 8000 --log-level info --use-colors"
     environment:
-      - database_host=db
       - SECRET_KEY=-KaPdSgVkYp3s6v8y/B?E(H+MbQeThWmZq4t7w!z%C&F)J@NcRfUjXn2r5u8x/A?
       - DEBUG=True
       - database_name=production
       - test_database_name=unittest_database
       - database_user=postgres
       - database_password=postgres
-      - database_host=127.0.0.1
+      - database_host=db
       - database_port=5432
     volumes:
       - type: bind

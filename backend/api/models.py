@@ -48,14 +48,14 @@ class Question(models.Model):
 class CustomQuestion(models.Model):
     session_id = models.CharField(max_length=255)
     content = models.CharField(max_length=255)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class CustomQuestionLog(models.Model):
     session_id = models.CharField(max_length=255)
     username = models.CharField(max_length=255)
     answer = models.CharField(max_length=255)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
     custom_question = models.ForeignKey("CustomQuestion", on_delete=models.CASCADE)
 
