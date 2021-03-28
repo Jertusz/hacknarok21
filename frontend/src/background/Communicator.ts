@@ -4,16 +4,16 @@ import WS_MESSAGE_TYPES from './WSMessageTypes';
 
 export const COMMUNICATOR_TARGET_ID = 'Communicator.ts';
 
-let eventListeners = new Map();
+let eventListeners:any = {};
 
 function callCallbacks(request: any, sender: any, sendResponse: any) {
-    console.log(request);
-    console.log(COMMUNICATOR_TARGET_ID);
+    console.error(request);
+    console.error(COMMUNICATOR_TARGET_ID);
     if (request.for === COMMUNICATOR_TARGET_ID) {
-        console.log(eventListeners);
-        const listener = eventListeners.get(request.call);
-        console.log(listener);
-        listener(request.data);
+        console.error(eventListeners);
+        const funkcja = eventListeners[request.call];
+        console.error(funkcja);
+        funkcja(request.data);
     }
 }
 browser.runtime.onMessage.addListener(callCallbacks);
@@ -60,10 +60,16 @@ export class Communicator {
     }
     static registerListener(event: ALL_EVENTS, callback: Function): string {
         const code = generateCode();
-        eventListeners.set(code, callback);
+        // eventListeners.set(code, callback);
+        eventListeners = {
+            ...eventListeners,
+            [code]: callback,
+        };
 
-        console.log(eventListeners);
-        
+        console.log('registerListener', eventListeners, event);
+        console.log(callback);
+        callback({ type: 'asdasd' });
+
         browser.runtime.sendMessage({
             for: BACKGROUND_TARGET_ID,
             type: WS_MESSAGE_TYPES.REGISTER,

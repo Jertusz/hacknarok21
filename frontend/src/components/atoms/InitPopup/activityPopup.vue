@@ -12,21 +12,32 @@
 
 <script>
 import Button from 'primevue/button';
+import Communicator from '@/background/Communicator';
+import { ALL_EVENTS } from '@/background/EventTypes';
+
+console.log(window.location.href);
 
 export default {
     name: 'ActivityPrompt',
-    props: {
-        question: {
-            type: String,
-            default: '',
-        },
-    },
     components: {
         Button,
     },
     methods: {
         answerWith(confirmation) {
-            // this.$emit("answered", confirmation);
+            Communicator.sendEvent(ALL_EVENTS.ANSWER_RANDOM_QUESTION, {
+                answer: String(confirmation),
+                question_id: this.id,
+            });
+            window.close();
+        },
+    },
+
+    computed: {
+        id() {
+            return window.location.href.split('?')[1].split('&')[1].split('=')[1];
+        },
+        question() {
+            return window.location.href.split('?')[1].split('&')[0].split('=')[1];
         },
     },
     mounted() {

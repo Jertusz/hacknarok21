@@ -18,8 +18,16 @@ function processOnMessageEventListeners(event: MessageEvent) {
     listeners.forEach((c: string) => {
         browser.runtime.sendMessage({ for: 'Communicator.ts', call: c, data });
     });
-    if (event.data.type === ALL_EVENTS.RANDOM_QUESTION_APPEARS) {
-        window.open('popup.html?question=true', 'extension_popup', 'status=no,scrollbars=yes,resizable=no,question=true');
+
+    if (data.type === ALL_EVENTS.RANDOM_QUESTION_APPEARS) {
+        console.log(data);
+        let t = screen.availHeight / 2 - 400 / 2;
+        let l = screen.availWidth / 2 - 400 / 2;
+        window.open(
+            `index.html?question=${data.question}&id=${data.question_id}`,
+            'extension_popup',
+            `width=400,height=400,top=${t},left=${l},status=no,scrollbars=yes,resizable=no`
+        );
     }
 }
 
